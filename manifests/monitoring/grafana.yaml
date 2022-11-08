@@ -1,0 +1,185 @@
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: grafana-credentials
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/name: grafana
+spec:
+  encryptedData:
+    password: AgBT3rQ6mVlMmSvrWnXSWtVWFgTmG0d9fgK74vFpF4wP6HBop0CUx4OPCgrIWsblvgTorIFW/cnX4AG+xMOJCMhI4FZIFIfm/V10fq1dc8WHhIWEWybuZrQApmN6ogqM976xZCeyOPXdh708dhs3yjXueNmAc+MQR20jrt4Rsk2qC4/53RlsA2EbsO0O0AtA58+t9LD4UM+ei9R7AbjMYbE5JyutNyCgRTf6dAr0ZWnzGWV9M8zIBcgtBAul8mWWDtVAHOIiEtdL44uQu/u7PLVyYw4vfkUWdwUJRTuBmUPcYSthjHnGlvo6qwQDS63FjmxvE4rDDDSnZhE5+r8i9q+/RKSsGQ23gAZDe7ev3mF55mCVgeAow6xMys6As+sBBq1qu1jyg9/bLUaQZuILWQZb+/F3YS/nffokMX4IGz6roB7rK7dXRWdBEXtR7NNFpgKiqUp19+UtdDxBEbrPBEjSD5+OYrGyksFLCS2x7TdR+4sDwbhTpQHi2Fzh5yl8kTunS1lpGI108zHi/epRDveTxgE4Ew1AyzstxrdrFYwZ8Uv07iOHmnkvPy4H1/XuXKf4KNhxIoHVtiCtWS9t1svSkseCKI1TQVZngvFRDwGIF4Pr3xNztSym3sQ7uhTLa2MuZL7J5f6d1vLh+BiFwoTfbgbVxojCcoO+OnMvQVjAIOoQ1EhPwr2ZnR8wpHqw7dIefwTbGGnM4XiHNFRd4onzC2PP6A==
+    username: AgAPO9QmpInD4LPeNkXgNayyVzwU3UkqVbpq9q+R7UYqO9CGCm/gBgV5Sp3iybAWEVgmg9/TDkxpHlq2pE84eITLMaBtb7AB/e07DiJ0MNBtwjiUL/oIdWUkzM0c4FgLOjX3Ci/a5iv7ZqlWl8EQzQhrRKxxxLSpZAbb2IAJSbhSdEkZz4Wqs3b0zCBzld05orcbYEqYctn2ev3nrQUJUscCOOQIw3EJ2eKz+Ao8g1cUHCAli161ldQkgyCLw6UShc+p0UkvScL4zsCJNTBZ8kuOONXcFTMDpNNuW3dg+19TqdTWqesrMPZbSyv4RIt2cfNswKcBlq/9gmdYbYjyDsUcX5XY3ZQ5/gXiRkFFSe1Ma5L/MFeMTrCu2ef6yS0ydNRE499rq+hdAWGWZwLTg4dwdhi9CdtiGX0PXnIktVSZvu0OTaPcgu3b+ssyv7GWWSNILTvLMzMRGBwm0BM20OVtYKL4ql5nYJENj9tHumtn1s9dn1/4/wY+yo1609JM1E1z42pvBkYJBwlDJXz9/8NNJfaG5MGm6UtItpV6pLBWIXECeAM4BX/IQl/J/HwMn5/DR6rwFnirudnn8Lp1QPc3v6ZXdLEepSWdOgKkzPAD1PkVmKiXXZd3B8P9mU5kN0WVbDoLU5p1bHfpxuscE8wiTnfvrnkMEbYBLGjVG2Py50mAXoK5q/JhLeQarYNZMMjbcKLTmQ==
+  template:
+    metadata:
+      name: grafana-credentials
+      namespace: default
+      labels:
+        app.kubernetes.io/name: grafana
+    type: Opaque
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/name: grafana
+data:
+  grafana.ini: |
+    [server]
+    enable_gzip = true
+
+    [analytics]
+    check_for_updates = false
+    reporting_enabled = false
+
+    [auth.anonymous]
+    enabled = true
+    org_role = Admin
+
+    [dataproxy]
+    timeout = 300
+    max_idle_connections = 400
+
+    [grafana_net]
+    url = https://grafana.net
+
+    [log]
+    mode = console
+
+    [paths]
+    data = /var/lib/grafana/data
+    logs = /var/log/grafana
+    plugins = /var/lib/grafana/plugins
+    provisioning = /etc/grafana/provisioning
+
+    [panels]
+    enable_alpha = true
+
+    [plugins]
+    enable_alpha = true
+    plugin_admin_enabled = true
+
+    [users]
+    default_theme = light
+  datasources.yaml: |
+    apiVersion: 1
+    datasources:
+    - access: proxy
+      jsonData:
+        maxLines: 1000
+      name: Loki
+      type: loki
+      url: http://loki.monitoring:3100
+    - access: proxy
+      name: Prometheus
+      type: prometheus
+      url: http://prometheus-operated.monitoring.svc:9090
+
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: grafana
+  labels:
+    app.kubernetes.io/name: grafana
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: grafana
+  name: grafana
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: grafana
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: grafana
+    spec:
+      securityContext:
+        fsGroup: 472
+        supplementalGroups:
+          - 0
+      containers:
+        - name: grafana
+          image: grafana/grafana:9.1.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: GF_SECURITY_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-credentials
+                  key: username
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-credentials
+                  key: password
+          ports:
+            - containerPort: 3000
+              name: http
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /robots.txt
+              port: 3000
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 2
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: 3000
+            timeoutSeconds: 1
+          resources:
+            requests:
+              cpu: 250m
+              memory: 750Mi
+          volumeMounts:
+            - mountPath: /var/lib/grafana
+              name: grafana
+            - name: config
+              mountPath: "/etc/grafana/grafana.ini"
+              subPath: grafana.ini
+            - name: config
+              mountPath: "/etc/grafana/provisioning/datasources/datasources.yaml"
+              subPath: datasources.yaml
+      volumes:
+        - name: config
+          configMap:
+            name: grafana
+        - name: grafana
+          persistentVolumeClaim:
+            claimName: grafana
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  labels:
+    app.kubernetes.io/name: grafana
+spec:
+  type: LoadBalancer
+  sessionAffinity: None
+  ports:
+    - port: 3000
+      protocol: TCP
+      targetPort: http
+  selector:
+    app.kubernetes.io/name: grafana

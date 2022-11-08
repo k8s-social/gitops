@@ -7,3 +7,4 @@ resources:
 - prometheus.yaml
 - kube-state-metrics.yaml
 - node-exporter.yaml
+- grafana.yaml
