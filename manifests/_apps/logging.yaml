@@ -22,6 +22,8 @@ spec:
           selfMonitoring:
             lokiCanary:
               enabled: false
+          alerts:
+            enabled: false
         test:
           enabled: false
   destination:
