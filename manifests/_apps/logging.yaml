@@ -12,15 +12,16 @@ spec:
     repoURL: https://grafana.github.io/helm-charts
     targetRevision: 3.3.2
     helm:
-      loki:
-        commonConfig:
-          replication_factor: 1
-        storage:
-          type: 'filesystem'
-      monitoring:
-        selfMonitoring:
-          lokiCanary:
-            enabled: false
+      values: |-
+        loki:
+          commonConfig:
+            replication_factor: 1
+          storage:
+            type: 'filesystem'
+        monitoring:
+          selfMonitoring:
+            lokiCanary:
+              enabled: false
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
@@ -44,12 +45,13 @@ spec:
     repoURL: https://grafana.github.io/helm-charts
     targetRevision: 6.6.1
     helm:
-      serviceMonitor:
-        enabled: true
-      config:
-        clients:
-          - url: http://loki/loki/api/v1/push
-            tenant_id: 1
+      values: |-
+        serviceMonitor:
+          enabled: true
+        config:
+          clients:
+            - url: http://loki/loki/api/v1/push
+              tenant_id: 1
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
