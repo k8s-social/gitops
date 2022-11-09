@@ -34,7 +34,8 @@ data:
 
     [auth.anonymous]
     enabled = true
-    org_role = Admin
+    org_name = "k8s.social"
+    org_role = Viewer
 
     [dataproxy]
     timeout = 300
