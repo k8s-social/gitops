@@ -16,6 +16,7 @@ spec:
         - "k8s.social"
         - "streaming.k8s.social"
       secretName: mastodon-tls
+  ingressClassName: nginx
   rules:
     - host: "k8s.social"
       http:
