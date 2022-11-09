@@ -97,6 +97,9 @@ metadata:
     app.kubernetes.io/name: grafana
   name: grafana
 spec:
+  replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app.kubernetes.io/name: grafana
