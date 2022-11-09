@@ -36,7 +36,6 @@ spec:
     automated: {}
     syncOptions:
       - CreateNamespace=true
-      - ServerSideApply=true
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
