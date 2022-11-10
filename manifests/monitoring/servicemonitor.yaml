@@ -9,4 +9,4 @@ spec:
     any: true
   endpoints:
     - path: /metrics/cadvisor
-    - Port: http-metrics
+    - port: http-metrics
