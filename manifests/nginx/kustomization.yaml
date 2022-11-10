@@ -10,3 +10,4 @@ resources:
 patches:
 - ./config.patch.yaml
 - ./deployment.patch.yaml
+- ./service.patch.yaml
