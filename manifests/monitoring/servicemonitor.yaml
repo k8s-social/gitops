@@ -5,8 +5,25 @@ metadata:
 spec:
   selector:
     matchLabels:
+      app.kubernetes.io/name: kubelet
+      k8s-app: kubelet
   namespaceSelector:
-    any: true
+    matchNames:
+      - kube-system
   endpoints:
-    - path: /metrics/cadvisor
-    - port: http-metrics
+    - port: https-metrics
+      scheme: https
+      tlsConfig:
+        caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        insecureSkipVerify: true
+      bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+      honorLabels: true
+
+    - port: https-metrics
+      path: /metrics/cadvisor
+      scheme: https
+      tlsConfig:
+        caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        insecureSkipVerify: true
+      bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+      honorLabels: true
