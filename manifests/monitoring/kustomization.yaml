@@ -8,3 +8,4 @@ resources:
 - kube-state-metrics.yaml
 - node-exporter.yaml
 - grafana.yaml
+- servicemonitor.yaml
