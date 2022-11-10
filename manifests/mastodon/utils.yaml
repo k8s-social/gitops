@@ -127,3 +127,46 @@ spec:
                 - name: "PORT"
                   value: "3000"
 ---
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mastodon-rebuild-home-feeds
+  namespace: mastodon
+  labels:
+    app.kubernetes.io/name: mastodon
+    app.kubernetes.io/instance: "k8s.social"
+    app.kubernetes.io/component: utils
+  annotations:
+    description: |
+      Manually trigger post-migration to populate users home feeds in Redis
+spec:
+  schedule: 0 0 * * 0
+  suspend: true
+  jobTemplate:
+    spec:
+      backoffLimit: 3
+      ttlSecondsAfterFinished: 86400
+      template:
+        metadata:
+          name: mastodon-rebuild-home-feeds
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: mastodon-db-migrate
+              image: "tootsuite/mastodon:v3.5.3"
+              imagePullPolicy: IfNotPresent
+              command:
+                - bash
+                - -c
+                - |
+                  bin/tootctl feeds build --all
+              envFrom:
+                - configMapRef:
+                    name: mastodon-env
+                - secretRef:
+                    name: mastodon
+              env:
+                - name: "PORT"
+                  value: "3000"
+---
