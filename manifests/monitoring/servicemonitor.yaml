@@ -1,0 +1,12 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: prometheus
+spec:
+  selector:
+    matchLabels:
+  namespaceSelector:
+    any: true
+  endpoints:
+    - path: /metrics/cadvisor
+    - Port: http-metrics
