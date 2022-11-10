@@ -30,7 +30,7 @@ spec:
                 - -c
                 - |
                   rclone listremotes --long
-                  rclone sync --progress scaleway:k8s.social civo:k8s.social-media
+                  rclone sync --s3-acl public-read --progress scaleway:k8s.social civo:k8s.social-media
               volumeMounts:
                 - name: config
                   mountPath: /config/rclone
