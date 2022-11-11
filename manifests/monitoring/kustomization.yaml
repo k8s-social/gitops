@@ -9,3 +9,4 @@ resources:
 - node-exporter.yaml
 - grafana.yaml
 - servicemonitor.yaml
+- vpa.yaml

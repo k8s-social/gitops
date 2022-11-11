@@ -6,3 +6,4 @@ resources:
 - ./secret.yaml
 - ./rbac.yaml
 - ./deployment.yaml
+- ./vpa.yaml

@@ -23,3 +23,23 @@ spec:
     syncOptions:
       - CreateNamespace=true
 ---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vpa-extras
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/k8s-social/gitops.git
+    path: manifests/vpa-extras
+    targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: vpa
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
