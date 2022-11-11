@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vpa
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    chart: vpa
+    repoURL: https://charts.fairwinds.com/stable
+    targetRevision: 1.5.0
+    helm:
+      values: |-
+        updater:
+          enabled: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: vpa
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
