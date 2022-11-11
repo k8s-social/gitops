@@ -15,6 +15,11 @@ spec:
       values: |-
         updater:
           enabled: false
+        recommender:
+          extraArgs:
+            prometheus-address: |
+              http://prometheus-operated.monitoring.svc.cluster.local:9090
+            storage: prometheus
   destination:
     server: https://kubernetes.default.svc
     namespace: vpa
