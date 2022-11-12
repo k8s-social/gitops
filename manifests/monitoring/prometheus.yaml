@@ -13,6 +13,7 @@ spec:
   ruleNamespaceSelector: {}
   resources:
     requests:
+      cpu: 300m
       memory: 400Mi
   enableAdminAPI: false
   storage:

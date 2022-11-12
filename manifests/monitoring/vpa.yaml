@@ -14,19 +14,6 @@ spec:
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
-  name: loki-grafana-agent-operator
-  namespace: monitoring
-spec:
-  targetRef:
-    apiVersion: "apps/v1"
-    kind:  Deployment
-    name: loki-grafana-agent-operator
-  updatePolicy:
-    updateMode: "Off"
----
-apiVersion: autoscaling.k8s.io/v1
-kind: VerticalPodAutoscaler
-metadata:
   name: prometheus-prometheus
   namespace: monitoring
 spec:
@@ -73,19 +60,6 @@ spec:
     apiVersion: "apps/v1"
     kind:  DaemonSet
     name: prometheus-node-exporter
-  updatePolicy:
-    updateMode: "Off"
----
-apiVersion: autoscaling.k8s.io/v1
-kind: VerticalPodAutoscaler
-metadata:
-  name: loki-logs
-  namespace: monitoring
-spec:
-  targetRef:
-    apiVersion: "apps/v1"
-    kind:  DaemonSet
-    name: loki-logs
   updatePolicy:
     updateMode: "Off"
 ---

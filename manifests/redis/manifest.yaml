@@ -163,7 +163,8 @@ spec:
                 - /health/ping_readiness_local.sh 1
           resources:
             limits: {}
-            requests: {}
+            requests:
+              cpu: 80m
           volumeMounts:
             - name: start-scripts
               mountPath: /opt/bitnami/scripts/start-scripts
@@ -321,7 +322,8 @@ spec:
                 - /health/ping_readiness_local_and_master.sh 1
           resources:
             limits: {}
-            requests: {}
+            requests:
+              cpu: 80m
           volumeMounts:
             - name: start-scripts
               mountPath: /opt/bitnami/scripts/start-scripts

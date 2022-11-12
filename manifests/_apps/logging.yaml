@@ -21,6 +21,7 @@ spec:
             type: 'filesystem'
         monitoring:
           selfMonitoring:
+            enabled: false
             lokiCanary:
               enabled: false
           rules:
@@ -29,6 +30,9 @@ spec:
             enabled: false
         test:
           enabled: false
+        singleBinary:
+          resources:
+            cpu: 100m
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
@@ -57,6 +61,9 @@ spec:
         config:
           clients:
             - url: http://loki:3100/loki/api/v1/push
+        resources:
+          requests:
+            cpu: 60m
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring

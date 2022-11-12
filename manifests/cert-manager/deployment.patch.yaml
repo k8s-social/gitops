@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cert-manager
+spec:
+  template:
+    spec:
+      containers:
+        - name: cert-manager-controller
+          resources:
+            requests:
+              cpu: 30m
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cert-manager-cainjector
+spec:
+  template:
+    spec:
+      containers:
+        - name: cert-manager-cainjector
+          resources:
+            requests:
+              cpu: 30m
+---
