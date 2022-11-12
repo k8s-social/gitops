@@ -38,6 +38,12 @@ spec:
             - --nodes=2:5:workers
             - --skip-nodes-with-local-storage=false
             - --skip-nodes-with-system-pods=false
+            - --scale-down-delay-after-add=20m
+            - --scale-down-unneeded-time=10m
+            - --scale-down-unready-time=10m
+            - --scan-interval=5m
+            - --max-node-provision-time=10m
+            - --cordon-node-before-terminating=true
           env:
             - name: CIVO_API_URL
               valueFrom:
