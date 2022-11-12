@@ -32,7 +32,8 @@ spec:
           enabled: false
         singleBinary:
           resources:
-            cpu: 100m
+            requests:
+              cpu: 100m
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
