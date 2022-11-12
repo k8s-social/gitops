@@ -69,6 +69,10 @@ metadata:
     secret.reloader.stakater.com/reload: "mastodon"
 spec:
   replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 50%
   selector:
     matchLabels:
       app.kubernetes.io/name: mastodon
@@ -141,6 +145,10 @@ metadata:
     secret.reloader.stakater.com/reload: "mastodon"
 spec:
   replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 50%
   selector:
     matchLabels:
       app.kubernetes.io/name: mastodon
@@ -225,6 +233,10 @@ metadata:
     secret.reloader.stakater.com/reload: "mastodon"
 spec:
   replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 50%
   selector:
     matchLabels:
       app.kubernetes.io/name: mastodon

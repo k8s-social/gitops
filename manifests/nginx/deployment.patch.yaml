@@ -7,6 +7,10 @@ metadata:
   namespace: ingress-nginx
 spec:
   replicas: 2
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+    type: RollingUpdate
   template:
     spec:
       containers:
