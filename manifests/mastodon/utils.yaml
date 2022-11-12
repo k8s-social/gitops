@@ -151,7 +151,7 @@ spec:
         metadata:
           name: mastodon-rebuild-home-feeds
         spec:
-          restartPolicy: OnFailure
+          restartPolicy: Never
           containers:
             - name: mastodon-db-migrate
               image: "tootsuite/mastodon:v3.5.3"
@@ -160,7 +160,7 @@ spec:
                 - bash
                 - -c
                 - |
-                  bin/tootctl feeds build --all
+                  bin/tootctl feeds build --all --verbose --concurrency=20
               envFrom:
                 - configMapRef:
                     name: mastodon-env
