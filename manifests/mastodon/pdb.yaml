@@ -3,7 +3,7 @@ kind: PodDisruptionBudget
 metadata:
   name: mastodon-web
 spec:
-  minAvailable: 2
+  minAvailable: 50%
   selector:
     matchLabels:
       app.kubernetes.io/name: mastodon
@@ -17,7 +17,7 @@ kind: PodDisruptionBudget
 metadata:
   name: mastodon-streaming
 spec:
-  minAvailable: 2
+  minAvailable: 50%
   selector:
     matchLabels:
       app.kubernetes.io/name: mastodon
@@ -31,7 +31,7 @@ kind: PodDisruptionBudget
 metadata:
   name: mastodon-sidekiq
 spec:
-  minAvailable: 2
+  minAvailable: 50%
   selector:
     matchLabels:
       app.kubernetes.io/name: mastodon
