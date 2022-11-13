@@ -141,8 +141,8 @@ metadata:
     description: |
       Manually trigger post-migration to populate users home feeds in Redis
 spec:
-  schedule: 0 0 * * 0
-  suspend: true
+  schedule: 0 * * * *
+  suspend: false
   jobTemplate:
     spec:
       backoffLimit: 3
