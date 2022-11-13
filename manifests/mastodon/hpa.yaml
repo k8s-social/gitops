@@ -13,7 +13,7 @@ spec:
     kind: Deployment
     name: mastodon-web
   minReplicas: 2
-  maxReplicas: 6
+  maxReplicas: 9
   metrics:
     - type: Resource
       resource:
