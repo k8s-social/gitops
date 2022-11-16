@@ -41,7 +41,7 @@ spec:
             - --scale-down-delay-after-add=20m
             - --scale-down-unneeded-time=10m
             - --scale-down-unready-time=10m
-            - --scan-interval=5m
+            - --scan-interval=1m
             - --max-node-provision-time=10m
             - --cordon-node-before-terminating=true
           env:
