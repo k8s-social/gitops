@@ -92,7 +92,7 @@ spec:
         runAsUser: 991
       containers:
         - name: mastodon
-          image: "tootsuite/mastodon:v3.5.3"
+          image: "tootsuite/mastodon:v3.5.4"
           imagePullPolicy: IfNotPresent
           command:
             - bundle
@@ -168,7 +168,7 @@ spec:
         runAsUser: 991
       containers:
         - name: mastodon
-          image: "tootsuite/mastodon:v3.5.3"
+          image: "tootsuite/mastodon:v3.5.4"
           imagePullPolicy: IfNotPresent
           command:
             - node
@@ -256,7 +256,7 @@ spec:
         runAsUser: 991
       containers:
         - name: mastodon
-          image: "tootsuite/mastodon:v3.5.3"
+          image: "tootsuite/mastodon:v3.5.4"
           imagePullPolicy: IfNotPresent
           command:
             - bundle
