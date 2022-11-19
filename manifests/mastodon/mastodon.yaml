@@ -107,8 +107,8 @@ spec:
                 name: mastodon
           resources:
             requests:
-              memory: 400Mi
-              cpu: 250m
+              memory: 450Mi
+              cpu: 300m
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
