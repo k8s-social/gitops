@@ -12,6 +12,6 @@ data:
   MALLOC_ARENA_MAX: "2"
   NODE_ENV: "production"
   RAILS_ENV: "production"
-  STREAMING_CLUSTER_NUM: "2"
-  WEB_CONCURRENCY: "2"
+  STREAMING_CLUSTER_NUM: "0"
+  WEB_CONCURRENCY: "0"
 ---
