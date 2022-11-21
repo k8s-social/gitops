@@ -41,3 +41,36 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: blackbox-exporter
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    chart: prometheus-blackbox-exporter
+    repoURL: https://prometheus-community.github.io/helm-charts
+    targetRevision: 7.1.3
+    helm:
+      values: |-
+        pspEnabled: false
+        hostNetwork: true
+        serviceMonitor:
+          enabled: true
+          targets:
+          - name: external-k8s-socail
+            url: https://k8s.social/health
+            interval: 60s
+            scrapeTimeout: 30s
+            module: http_2xx
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
