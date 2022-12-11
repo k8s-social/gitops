@@ -170,3 +170,91 @@ spec:
                 - name: "PORT"
                   value: "3000"
 ---
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mastodon-pre-v4-upgrade
+  namespace: mastodon
+  labels:
+    app.kubernetes.io/name: mastodon
+    app.kubernetes.io/instance: "k8s.social"
+    app.kubernetes.io/component: utils
+  annotations:
+    description: |
+      Manually trigger pre-upgrade task for v4
+spec:
+  schedule: 0 * * * *
+  suspend: true
+  jobTemplate:
+    spec:
+      backoffLimit: 3
+      ttlSecondsAfterFinished: 86400
+      template:
+        metadata:
+          name: mastodon-pre-v4-upgrade
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: mastodon-db-migrate
+              image: "tootsuite/mastodon:v4.0.2"
+              imagePullPolicy: IfNotPresent
+              command:
+                - bash
+                - -c
+                - |
+                  rails db:migrate
+              envFrom:
+                - configMapRef:
+                    name: mastodon-env
+                - secretRef:
+                    name: mastodon
+              env:
+                - name: "PORT"
+                  value: "3000"
+                - name: SKIP_POST_DEPLOYMENT_MIGRATIONS
+                  value: "true"
+---
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mastodon-post-v4-upgrade
+  namespace: mastodon
+  labels:
+    app.kubernetes.io/name: mastodon
+    app.kubernetes.io/instance: "k8s.social"
+    app.kubernetes.io/component: utils
+  annotations:
+    description: |
+      Manually trigger pre-upgrade task for v4
+spec:
+  schedule: 0 * * * *
+  suspend: true
+  jobTemplate:
+    spec:
+      backoffLimit: 3
+      ttlSecondsAfterFinished: 86400
+      template:
+        metadata:
+          name: mastodon-post-v4-upgrade
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: mastodon-db-migrate
+              image: "tootsuite/mastodon:v4.0.2"
+              imagePullPolicy: IfNotPresent
+              command:
+                - bash
+                - -c
+                - |
+                  rails db:migrate
+              envFrom:
+                - configMapRef:
+                    name: mastodon-env
+                - secretRef:
+                    name: mastodon
+              env:
+                - name: "PORT"
+                  value: "3000"
+---
