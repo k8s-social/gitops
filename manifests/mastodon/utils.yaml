@@ -23,7 +23,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: mastodon-media-remove
-              image: "tootsuite/mastodon:v4.1.0"
+              image: "ghcr.io/mastodon/mastodon:v4.1.1"
               imagePullPolicy: IfNotPresent
               command:
                 - bash
@@ -69,7 +69,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: mastodon-assets-precompile
-              image: "tootsuite/mastodon:v4.1.0"
+              image: "ghcr.io/mastodon/mastodon:v4.1.1"
               imagePullPolicy: IfNotPresent
               command:
                 - bash
@@ -112,7 +112,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: mastodon-db-migrate
-              image: "tootsuite/mastodon:v4.1.0"
+              image: "ghcr.io/mastodon/mastodon:v4.1.1"
               imagePullPolicy: IfNotPresent
               command:
                 - bundle
@@ -155,7 +155,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: mastodon-db-migrate
-              image: "tootsuite/mastodon:v4.1.0"
+              image: "ghcr.io/mastodon/mastodon:v4.1.1"
               imagePullPolicy: IfNotPresent
               command:
                 - bash
