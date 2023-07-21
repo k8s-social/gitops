@@ -92,7 +92,7 @@ spec:
         runAsUser: 991
       containers:
         - name: mastodon
-          image: "ghcr.io/mastodon/mastodon:v4.1.4"
+          image: "ghcr.io/mastodon/mastodon:v4.1.5"
           imagePullPolicy: IfNotPresent
           command:
             - bundle
@@ -168,7 +168,7 @@ spec:
         runAsUser: 991
       containers:
         - name: mastodon
-          image: "ghcr.io/mastodon/mastodon:v4.1.4"
+          image: "ghcr.io/mastodon/mastodon:v4.1.5"
           imagePullPolicy: IfNotPresent
           command:
             - node
@@ -256,7 +256,7 @@ spec:
         runAsUser: 991
       containers:
         - name: mastodon
-          image: "ghcr.io/mastodon/mastodon:v4.1.4"
+          image: "ghcr.io/mastodon/mastodon:v4.1.5"
           imagePullPolicy: IfNotPresent
           command:
             - bundle
