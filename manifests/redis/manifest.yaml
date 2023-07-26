@@ -99,14 +99,17 @@ spec:
           preferredDuringSchedulingIgnoredDuringExecution:
             - podAffinityTerm:
                 labelSelector:
-                  matchLabels:
-                    app.kubernetes.io/name: redis
-                    app.kubernetes.io/component: master
-                namespaces:
-                  - "default"
+                  matchExpressions:
+                  - key: "app.kubernetes.io/name"
+                    operator: In
+                    values:
+                    - "redis"
+                  - key: "app.kubernetes.io/component"
+                    operator: In
+                    values:
+                    - "master"
                 topologyKey: kubernetes.io/hostname
               weight: 1
-        nodeAffinity:
       terminationGracePeriodSeconds: 30
       containers:
         - name: redis
@@ -242,14 +245,17 @@ spec:
           preferredDuringSchedulingIgnoredDuringExecution:
             - podAffinityTerm:
                 labelSelector:
-                  matchLabels:
-                    app.kubernetes.io/name: redis
-                    app.kubernetes.io/component: replica
-                namespaces:
-                  - "default"
+                  matchExpressions:
+                  - key: "app.kubernetes.io/name"
+                    operator: In
+                    values:
+                    - "redis"
+                  - key: "app.kubernetes.io/component"
+                    operator: In
+                    values:
+                    - "replica"
                 topologyKey: kubernetes.io/hostname
               weight: 1
-        nodeAffinity:
       terminationGracePeriodSeconds: 30
       containers:
         - name: redis

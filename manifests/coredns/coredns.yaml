@@ -114,3 +114,16 @@ spec:
             path: NodeHosts
           name: coredns
         name: config-volume
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: "k8s-app"
+                  operator: In
+                  values:
+                  - "kube-dns"
+                  - "coredns"
+              topologyKey: kubernetes.io/hostname
