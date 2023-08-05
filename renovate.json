@@ -1,7 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base"
+    "replacements:k8s-registry-move",
+    "github>averagemarcus/renovate-config:source-urls"
   ],
   "dependencyDashboard": false,
   "automerge": true,
