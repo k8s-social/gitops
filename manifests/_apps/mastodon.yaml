@@ -19,3 +19,8 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
+  ignoreDifferences:
+  - group: apps
+    kind: Deployment
+    jsonPointers:
+    - /spec/replicas
