@@ -3,10 +3,8 @@
   "extends": [
     "config:base"
   ],
-  "dependencyDashboard": true,
+  "dependencyDashboard": false,
   "automerge": true,
-  "automergeType": "pr",
-  "automergeStrategy": "squash",
   "platformAutomerge": true,
   "branchConcurrentLimit": 0,
   "prConcurrentLimit": 0,
