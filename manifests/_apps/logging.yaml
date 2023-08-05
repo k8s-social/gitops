@@ -22,16 +22,16 @@ spec:
         monitoring:
           selfMonitoring:
             enabled: false
-            lokiCanary:
-              enabled: false
+            grafanaAgent:
+              installOperator: false
+          lokiCanary:
+            enabled: false
           rules:
             alerting: false
           alerts:
             enabled: false
         test:
           enabled: false
-        lokiCanary:
-          enabled: true
         singleBinary:
           replicas: 1
           resources:
