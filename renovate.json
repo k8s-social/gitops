@@ -1,6 +1,21 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "dependencyDashboard": true,
+  "platformAutomerge": true,
+  "branchConcurrentLimit": 0,
+  "prConcurrentLimit": 0,
+  "prHourlyLimit": 0,
+  "rebaseWhen": "behind-base-branch",
   "extends": [
     "config:base"
-  ]
+  ],
+  "ansible": {
+    "enabled": false
+  },
+  "argocd": {
+    "fileMatch": ["manifests/_apps/.+\\.yaml$"]
+  },
+  "kubernetes": {
+    "fileMatch": ["manifests/.+\\.yaml$"]
+  }
 }
