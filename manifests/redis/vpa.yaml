@@ -1,13 +1,26 @@
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
-  name: redis
+  name: redis-master
   namespace: redis
 spec:
   targetRef:
     apiVersion: "apps/v1"
     kind:  StatefulSet
-    name: redis-node
+    name: redis-master
+  updatePolicy:
+    updateMode: "Off"
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: redis-replicas
+  namespace: redis
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind:  StatefulSet
+    name: redis-replicas
   updatePolicy:
     updateMode: "Off"
 ---

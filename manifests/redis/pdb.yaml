@@ -1,11 +1,12 @@
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
-  name: redis
+  name: redis-replicas
   namespace: redis
 spec:
-  minAvailable: 1
+  minAvailable: 50%
   selector:
     matchLabels:
+      app.kubernetes.io/component: replica
       app.kubernetes.io/name: redis
 ---
