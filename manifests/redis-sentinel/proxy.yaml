@@ -50,7 +50,7 @@ spec:
         - -listen
         - ":6379"
         - -sentinel
-        - "redis-headless.redis-sentinel.svc.cluster.local:26379"
+        - "redis.redis-sentinel.svc.cluster.local:26379"
         ports:
         - containerPort: 6379
           name: redis
