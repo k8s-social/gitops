@@ -82,7 +82,7 @@ spec:
               weight: 1
       containers:
         - name: redis
-          image: docker.io/bitnami/redis:7.0.5-debian-11-r15
+          image: docker.io/bitnami/redis:7.0.12-debian-11-r15
           imagePullPolicy: "IfNotPresent"
           lifecycle:
             preStop:
