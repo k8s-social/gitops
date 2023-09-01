@@ -14,7 +14,7 @@ spec:
   selector:
     app.kubernetes.io/name: redis-sentinel-proxy
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: redis-sentinel-proxy
