@@ -494,6 +494,11 @@ data:
 
     if ! sentinel_failover_finished; then
         echo "I am the master pod and you are stopping me. Starting sentinel failover"
+
+        echo "Issuing failover"
+        # if I am the master, issue a command to failover once
+        run_sentinel_command failover "mymaster"
+
         if retry_while "sentinel_failover_finished" "20" 1; then
             echo "Master has been successfuly failed over to a different pod."
             exit 0
@@ -548,12 +553,9 @@ data:
         # Pausing client write connections to avoid data loss
         run_redis_command CLIENT PAUSE "22000" WRITE
 
-        echo "Issuing failover"
-        # if I am the master, issue a command to failover once
-        run_sentinel_command failover "mymaster"
-
         echo "Waiting for sentinel to complete failover for up to 20s"
         retry_while "sentinel_failover_finished" "20" 1
     else
         exit 0
     fi
+
