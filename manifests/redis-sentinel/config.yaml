@@ -551,7 +551,7 @@ data:
         echo "I am the master pod and you are stopping me."
 
         # Pausing client write connections to avoid data loss
-        run_redis_command CLIENT PAUSE "22000" WRITE
+        run_redis_command CLIENT PAUSE "5000" WRITE
 
         echo "Waiting for sentinel to complete failover for up to 20s"
         retry_while "sentinel_failover_finished" "20" 1
