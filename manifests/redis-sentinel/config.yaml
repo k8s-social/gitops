@@ -462,6 +462,7 @@ data:
     echo "sentinel announce-port $SERVPORT" >> /opt/bitnami/redis-sentinel/etc/sentinel.conf
     echo "sentinel announce-ip $(get_full_hostname "$HOSTNAME")" >> /opt/bitnami/redis-sentinel/etc/sentinel.conf
     exec redis-server /opt/bitnami/redis-sentinel/etc/sentinel.conf --sentinel
+
   prestop-sentinel.sh: |
     #!/bin/bash
 
@@ -483,7 +484,7 @@ data:
             redis-cli -h "$REDIS_SERVICE" -p "$SENTINEL_SERVICE_PORT" sentinel "$@"
         fi
     }
-    failover_finished() {
+    sentinel_failover_finished() {
       REDIS_SENTINEL_INFO=($(run_sentinel_command get-master-addr-by-name "mymaster"))
       REDIS_MASTER_HOST="${REDIS_SENTINEL_INFO[0]}"
       [[ "$REDIS_MASTER_HOST" != "$(get_full_hostname $HOSTNAME)" ]]
@@ -491,11 +492,9 @@ data:
 
     REDIS_SERVICE="redis.redis-sentinel.svc.cluster.local"
 
-    if ! failover_finished; then
+    if ! sentinel_failover_finished; then
         echo "I am the master pod and you are stopping me. Starting sentinel failover"
-        # if I am the master, issue a command to failover once and then wait for the failover to finish
-        run_sentinel_command failover "mymaster"
-        if retry_while "failover_finished" "20" 1; then
+        if retry_while "sentinel_failover_finished" "20" 1; then
             echo "Master has been successfuly failed over to a different pod."
             exit 0
         else
@@ -505,6 +504,7 @@ data:
     else
         exit 0
     fi
+
   prestop-redis.sh: |
     #!/bin/bash
 
@@ -523,24 +523,37 @@ data:
         [[ "$REDIS_ROLE" != "master" ]]
     }
 
+    REDIS_SERVICE="redis.redis-sentinel.svc.cluster.local"
+
+    run_sentinel_command() {
+        if is_boolean_yes "$REDIS_SENTINEL_TLS_ENABLED"; then
+            redis-cli -h "$REDIS_SERVICE" -p "$REDIS_SENTINEL_PORT" --tls --cert "$REDIS_SENTINEL_TLS_CERT_FILE" --key "$REDIS_SENTINEL_TLS_KEY_FILE" --cacert "$REDIS_SENTINEL_TLS_CA_FILE" sentinel "$@"
+        else
+            redis-cli -h "$REDIS_SERVICE" -p "$REDIS_SENTINEL_PORT" sentinel "$@"
+        fi
+    }
+    sentinel_failover_finished() {
+        REDIS_SENTINEL_INFO=($(run_sentinel_command get-master-addr-by-name "mymaster"))
+        REDIS_MASTER_HOST="${REDIS_SENTINEL_INFO[0]}"
+        [[ "$REDIS_MASTER_HOST" != "$(get_full_hostname $HOSTNAME)" ]]
+    }
+
     # redis-cli automatically consumes credentials from the REDISCLI_AUTH variable
     [[ -n "$REDIS_PASSWORD" ]] && export REDISCLI_AUTH="$REDIS_PASSWORD"
     [[ -f "$REDIS_PASSWORD_FILE" ]] && export REDISCLI_AUTH="$(< "${REDIS_PASSWORD_FILE}")"
 
     if ! failover_finished; then
         echo "I am the master pod and you are stopping me."
-        # Running failover command
-        echo "Running the FAILOVER command"
-        run_redis_command FAILOVER TIMEOUT "20000"
-        # Waiting for the failover to finish
-        echo "Waiting for the failover to finish up to 20s"
-        if retry_while "failover_finished" "20" 1
-            echo "Master has been successfuly failed over to a different pod."
-            exit 0
-        else
-            echo "Master failover failed"
-            exit 1
-        fi
+
+        # Pausing client write connections to avoid data loss
+        run_redis_command CLIENT PAUSE "22000" WRITE
+
+        echo "Issuing failover"
+        # if I am the master, issue a command to failover once
+        run_sentinel_command failover "mymaster"
+
+        echo "Waiting for sentinel to complete failover for up to 20s"
+        retry_while "sentinel_failover_finished" "20" 1
     else
         exit 0
     fi
