@@ -51,6 +51,8 @@ spec:
         - ":6379"
         - -sentinel
         - "redis.redis-sentinel.svc.cluster.local:26379"
+        - -resolve-retries
+        - "5"
         ports:
         - containerPort: 6379
           name: redis
