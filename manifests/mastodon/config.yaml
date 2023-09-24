@@ -14,4 +14,5 @@ data:
   RAILS_ENV: "production"
   STREAMING_CLUSTER_NUM: "0"
   WEB_CONCURRENCY: "0"
+  UPDATE_CHECK_URL: ""
 ---
