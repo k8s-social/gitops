@@ -10,7 +10,7 @@ spec:
   source:
     chart: vpa
     repoURL: https://charts.fairwinds.com/stable
-    targetRevision: 3.0.0
+    targetRevision: 3.0.1
     helm:
       values: |-
         updater:
