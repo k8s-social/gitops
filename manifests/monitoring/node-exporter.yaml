@@ -48,7 +48,7 @@ spec:
       serviceAccountName: prometheus-node-exporter
       containers:
         - name: prometheus-node-exporter
-          image: "quay.io/prometheus/node-exporter:v1.6.1"
+          image: "quay.io/prometheus/node-exporter:v1.7.0"
           imagePullPolicy: "IfNotPresent"
           args:
             - --web.listen-address=:9100
