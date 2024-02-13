@@ -183,7 +183,7 @@ spec:
             - name: tmp
               mountPath: /tmp
         - name: sentinel
-          image: docker.io/bitnami/redis-sentinel:7.0.11-debian-11-r14
+          image: docker.io/bitnami/redis-sentinel:7.2.4-debian-11-r14
           imagePullPolicy: "IfNotPresent"
           lifecycle:
             preStop:
