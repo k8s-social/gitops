@@ -226,15 +226,15 @@ spec:
           timeoutSeconds: 5
 ---
 
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: kube-state-metrics
-  labels:
-    app.kubernetes.io/name: kube-state-metrics
-spec:
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: kube-state-metrics
-  endpoints:
-  - port: http
+# apiVersion: monitoring.coreos.com/v1
+# kind: ServiceMonitor
+# metadata:
+#   name: kube-state-metrics
+#   labels:
+#     app.kubernetes.io/name: kube-state-metrics
+# spec:
+#   selector:
+#     matchLabels:
+#       app.kubernetes.io/name: kube-state-metrics
+#   endpoints:
+#   - port: http

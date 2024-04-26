@@ -5,7 +5,7 @@ namespace: ingress-nginx
 resources:
 - https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.4.0/deploy/static/provider/cloud/deploy.yaml
 - ./config.yaml
-- ./servicemonitor.yaml
+# - ./servicemonitor.yaml
 - ./pdb.yaml
 - ./hpa.yaml
 
