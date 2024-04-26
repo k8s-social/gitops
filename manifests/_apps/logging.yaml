@@ -1,87 +1,84 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: loki
-  namespace: argocd
-  finalizers:
-  - resources-finalizer.argocd.argoproj.io
-spec:
-  project: default
-  source:
-    chart: loki
-    repoURL: https://grafana.github.io/helm-charts
-    targetRevision: 5.47.2
-    helm:
-      values: |-
-        loki:
-          auth_enabled: false
-          commonConfig:
-            replication_factor: 1
-          storage:
-            type: 'filesystem'
-        monitoring:
-          selfMonitoring:
-            enabled: false
-            grafanaAgent:
-              installOperator: false
-          lokiCanary:
-            enabled: false
-          rules:
-            alerting: false
-          alerts:
-            enabled: false
-        test:
-          enabled: false
-        singleBinary:
-          replicas: 0
-          resources:
-            requests:
-              cpu: 100m
-        backend:
-          replicas: 0
-        read:
-          replicas: 0
-        write:
-          replicas: 0
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: monitoring
-  syncPolicy:
-    automated: {}
-    syncOptions:
-      - CreateNamespace=true
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: promtail
-  namespace: argocd
-  finalizers:
-  - resources-finalizer.argocd.argoproj.io
-spec:
-  project: default
-  source:
-    chart: promtail
-    repoURL: https://grafana.github.io/helm-charts
-    targetRevision: 6.15.5
-    helm:
-      values: |-
-        serviceMonitor:
-          enabled: true
-        config:
-          clients:
-            - url: http://loki:3100/loki/api/v1/push
-        resources:
-          requests:
-            cpu: 60m
-        daemonset:
-          enabled: true
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: monitoring
-  syncPolicy:
-    automated: {}
-    syncOptions:
-      - CreateNamespace=true
-      - ServerSideApply=true
----
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: loki
+#   namespace: argocd
+#   finalizers:
+#   - resources-finalizer.argocd.argoproj.io
+# spec:
+#   project: default
+#   source:
+#     chart: loki
+#     repoURL: https://grafana.github.io/helm-charts
+#     targetRevision: 5.47.2
+#     helm:
+#       values: |-
+#         loki:
+#           auth_enabled: false
+#           commonConfig:
+#             replication_factor: 1
+#           storage:
+#             type: 'filesystem'
+#         monitoring:
+#           selfMonitoring:
+#             enabled: false
+#             grafanaAgent:
+#               installOperator: false
+#           lokiCanary:
+#             enabled: false
+#           rules:
+#             alerting: false
+#           alerts:
+#             enabled: false
+#         test:
+#           enabled: false
+#         singleBinary:
+#           resources:
+#             requests:
+#               cpu: 100m
+#         backend:
+#           replicas: 0
+#         read:
+#           replicas: 0
+#         write:
+#           replicas: 0
+#   destination:
+#     server: https://kubernetes.default.svc
+#     namespace: monitoring
+#   syncPolicy:
+#     automated: {}
+#     syncOptions:
+#       - CreateNamespace=true
+# ---
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: promtail
+#   namespace: argocd
+#   finalizers:
+#   - resources-finalizer.argocd.argoproj.io
+# spec:
+#   project: default
+#   source:
+#     chart: promtail
+#     repoURL: https://grafana.github.io/helm-charts
+#     targetRevision: 6.15.5
+#     helm:
+#       values: |-
+#         serviceMonitor:
+#           enabled: true
+#         config:
+#           clients:
+#             - url: http://loki:3100/loki/api/v1/push
+#         resources:
+#           requests:
+#             cpu: 60m
+#   destination:
+#     server: https://kubernetes.default.svc
+#     namespace: monitoring
+#   syncPolicy:
+#     automated: {}
+#     syncOptions:
+#       - CreateNamespace=true
+#       - ServerSideApply=true
+# ---
