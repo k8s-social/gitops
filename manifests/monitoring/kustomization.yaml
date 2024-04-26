@@ -3,10 +3,10 @@ kind: Kustomization
 
 namespace: monitoring
 resources:
-- https://github.com/prometheus-operator/prometheus-operator/releases/download/v0.60.1/bundle.yaml
-- prometheus.yaml
+# - https://github.com/prometheus-operator/prometheus-operator/releases/download/v0.60.1/bundle.yaml
+# - prometheus.yaml
 - kube-state-metrics.yaml
-- node-exporter.yaml
-- grafana.yaml
-- servicemonitor.yaml
-- vpa.yaml
+# - node-exporter.yaml
+# - grafana.yaml
+# - servicemonitor.yaml
+# - vpa.yaml
