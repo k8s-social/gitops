@@ -10,6 +10,6 @@ resources:
 - ./hpa.yaml
 
 patches:
-- ./config.patch.yaml
-- ./deployment.patch.yaml
-- ./service.patch.yaml
+- path: ./config.patch.yaml
+- path: ./deployment.patch.yaml
+- path: ./service.patch.yaml
