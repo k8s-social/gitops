@@ -12,8 +12,8 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: mastodon-web
-  minReplicas: 3
-  maxReplicas: 9
+  minReplicas: 2
+  maxReplicas: 6
   metrics:
     - type: Resource
       resource:
@@ -36,7 +36,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: mastodon-sidekiq
-  minReplicas: 3
+  minReplicas: 2
   maxReplicas: 6
   metrics:
     - type: Resource
