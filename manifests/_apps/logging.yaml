@@ -33,7 +33,7 @@ spec:
         test:
           enabled: false
         singleBinary:
-          replicas: 1
+          replicas: 0
           resources:
             requests:
               cpu: 100m
@@ -74,6 +74,8 @@ spec:
         resources:
           requests:
             cpu: 60m
+        daemonset:
+          enabled: true
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
