@@ -89,6 +89,51 @@ spec:
 apiVersion: batch/v1
 kind: CronJob
 metadata:
+  name: mastodon-db-migrate-predeploy
+  namespace: mastodon
+  labels:
+    app.kubernetes.io/name: mastodon
+    app.kubernetes.io/instance: "k8s.social"
+    app.kubernetes.io/component: utils
+  annotations:
+    description: |
+      Manually trigger pre-install/upgrade to migrate the database schema
+spec:
+  schedule: 0 0 * * 0
+  suspend: true
+  jobTemplate:
+    spec:
+      backoffLimit: 3
+      ttlSecondsAfterFinished: 86400
+      template:
+        metadata:
+          name: mastodon-db-migrate
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: mastodon-db-migrate
+              image: "ghcr.io/mastodon/mastodon:v4.3.0"
+              imagePullPolicy: IfNotPresent
+              command:
+                - bundle
+                - exec
+                - rails
+                - db:migrate
+              envFrom:
+                - configMapRef:
+                    name: mastodon-env
+                - secretRef:
+                    name: mastodon
+              env:
+                - name: "PORT"
+                  value: "3000"
+                - name: "SKIP_POST_DEPLOYMENT_MIGRATIONS"
+                  value: "true"
+
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
   name: mastodon-db-migrate
   namespace: mastodon
   labels:
