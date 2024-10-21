@@ -168,7 +168,7 @@ spec:
         runAsUser: 991
       containers:
         - name: mastodon
-          image: "ghcr.io/mastodon/mastodon-streaming:v4.3.0"
+          image: "ghcr.io/mastodon/mastodon-streaming:v4.3.1"
           imagePullPolicy: IfNotPresent
           command:
             - node
