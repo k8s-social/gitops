@@ -41,7 +41,7 @@ spec:
                 topologyKey: kubernetes.io/hostname
               weight: 1
       containers:
-      - image: flant/redis-sentinel-proxy:v2.0.3
+      - image: flant/redis-sentinel-proxy:v2.0.4
         name: sentinel-proxy
         command:
         - /usr/local/bin/redis-sentinel-proxy
