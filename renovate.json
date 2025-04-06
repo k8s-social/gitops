@@ -19,5 +19,11 @@
   },
   "kubernetes": {
     "fileMatch": ["manifests/.+\\.yaml$"]
-  }
+  },
+  "packageRules": [
+    {
+      "groupName": "Mastodon",
+      "matchPackageNames": ["ghcr.io/mastodon/**"]
+    }
+  ]
 }
