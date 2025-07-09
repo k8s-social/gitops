@@ -112,7 +112,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: mastodon-db-migrate
-              image: "ghcr.io/mastodon/mastodon:v4.3.9"
+              image: "ghcr.io/mastodon/mastodon:v4.4.0"
               imagePullPolicy: IfNotPresent
               command:
                 - bundle
