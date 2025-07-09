@@ -40,6 +40,7 @@ spec:
               env:
                 - name: "PORT"
                   value: "3000"
+              resources: {}
 ---
 
 
@@ -84,6 +85,7 @@ spec:
               env:
                 - name: "PORT"
                   value: "3000"
+              resources: {}
 ---
 
 apiVersion: batch/v1
@@ -129,6 +131,7 @@ spec:
                   value: "3000"
                 - name: "SKIP_POST_DEPLOYMENT_MIGRATIONS"
                   value: "true"
+              resources: {}
 
 ---
 apiVersion: batch/v1
@@ -172,6 +175,7 @@ spec:
               env:
                 - name: "PORT"
                   value: "3000"
+              resources: {}
 
 ---
 
@@ -216,4 +220,5 @@ spec:
               env:
                 - name: "PORT"
                   value: "3000"
+              resources: {}
 ---
